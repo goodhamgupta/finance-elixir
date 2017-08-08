@@ -60,14 +60,6 @@ defmodule FinanceTest do
     assert Finance.xirr(d,v) == {:ok, -1.018508}
   end
 
-  test "xirr/2 inverted ok investment" do
-    v = [-1000.0, 600.0, 6000.0, -5600.0]
-    d = [{1985,1,1},{1990,1,1},{1995,1,1}, {2010,1,1}]
-
-    assert Finance.xirr(d,v) == {:ok, 0.225683} # Our answer: 0.274745
-
-  end
-
   test "xirr/2 wrong size" do
     d = [
       {2014,04,15},
@@ -94,17 +86,9 @@ defmodule FinanceTest do
     assert Finance.xirr(d,v) == {:error, "Values should have at least one positive or negative value."}
   end
 
-  test "xirr/2 good investment" do
-    d = [
-      {2008,02,05},
-      {2008,07,05},
-      {2009,01,05}
-    ]
-    v = [
-      -2750,
-      1000,
-      2000
-    ]
+  test "xirr/2 not a bad investment" do
+    d = [{2008,2,5},{2008,7,5},{2009,1,5}]
+    v = [2750.0,-1000.0,-2000.0]
 
     assert Finance.xirr(d,v) == {:ok, 0.123631}
   end

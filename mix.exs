@@ -11,14 +11,13 @@ defmodule Finance.Mixfile do
       description: "A library to calculate Xirr through the bisection method using parallel processes.",
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test],
-      escript: [main_module: Finance],
       package: package(),
       deps: deps()
     ]
   end
 
   def application do
-    [applications: [:logger, :tzdata]]
+    [applications: [:logger]]
   end
 
   defp package do
@@ -32,14 +31,11 @@ defmodule Finance.Mixfile do
 
   defp deps do
     [
-      {:timex, "~> 3.1"},
       {:mariaex, "~> 0.8.2"},
-      {:csv, "~>2.0.0"},
       {:earmark, "~> 0.2", only: :dev},
       {:ex_doc, "~> 0.12", only: :dev},
       {:excoveralls, "~> 0.5.4", only: :test},
       {:benchfella, "~> 0.3.0"},
-      {:credo, "~> 0.4"}
     ]
   end
 end
