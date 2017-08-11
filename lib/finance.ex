@@ -32,6 +32,7 @@ defmodule Finance do
   @type date :: Date.t
 
   @max_error 1.0e-3
+  @days_in_a_year 365
 
   defp pmap(collection, function) do
     me = self
@@ -79,6 +80,16 @@ defmodule Finance do
         true -> {:error, "Uncaught error"}
     end
   end # def xirr
+
+  def absolute_rate(0, days), do: {:error, "Rate is 0" }
+
+  def absolute_rate(rate, days) do
+    if days > @days_in_a_year do
+      {:error, "Invalid date value"}
+    else
+      {:ok, (:math.pow(1+rate, days/@days_in_a_year) -1) * 100 |> Float.round(2)}
+    end
+  end
 
   defp compact_flow(dates_values, min_date) do
     flow = Enum.reduce(dates_values, %{}, &organize_value(&1, &2, min_date))
