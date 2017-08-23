@@ -84,10 +84,10 @@ defmodule Finance do
   def absolute_rate(0, days), do: {:error, "Rate is 0" }
 
   def absolute_rate(rate, days) do
-    if days > @days_in_a_year do
-      {:error, "Invalid date value"}
-    else
+    if days < @days_in_a_year do
       {:ok, (:math.pow(1+rate, days/@days_in_a_year) -1) * 100 |> Float.round(2)}
+    else
+      (rate * 100) |> Float.round(2)
     end
   end
 
