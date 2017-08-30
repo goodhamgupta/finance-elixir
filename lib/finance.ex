@@ -69,7 +69,7 @@ defmodule Finance do
   end
 
   def xirr(dates, values) do
-    dates = Enum.map dates, &(Date.from_erl(&1) |> elem(1))
+    dates = Enum.map dates, &(Date.from_erl!(&1))
     min_date = Enum.max(dates)
     {dates, values, dates_values} = compact_flow(Enum.zip(dates, values), min_date)
     cond do
@@ -79,6 +79,8 @@ defmodule Finance do
         calculate(:xirr, dates_values, [], guess_rate(dates, values),0)
         true -> {:error, "Uncaught error"}
     end
+  rescue _ ->
+    {:error, 0.0}
   end # def xirr
 
   def absolute_rate(0, days), do: {:error, "Rate is 0" }
