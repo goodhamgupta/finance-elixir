@@ -70,7 +70,7 @@ defmodule Finance do
 
   def xirr(dates, values) do
     dates = Enum.map dates, &(Date.from_erl!(&1))
-    min_date = Enum.max(dates)
+    min_date = dates |> List.first
     {dates, values, dates_values} = compact_flow(Enum.zip(dates, values), min_date)
     cond do
       !verify_flow(values) ->
