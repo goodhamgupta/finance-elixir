@@ -44,7 +44,7 @@ defmodule FinanceTest do
     v = [1000.0, -600.0, -6000.0]
     d = [{1985,1,1},{1990,1,1},{1995,1,1}]
 
-    assert Finance.xirr(d,v) == {:ok, 0.225684}
+    assert Finance.xirr(d,v) == {:ok, 0.225683}
   end
 
   test "xirr/2 long investment" do
@@ -57,7 +57,7 @@ defmodule FinanceTest do
     {2013,03,11},{2013,03,11},{2013,03,28},{2013,03,28},{2013,03,28},{2013,03,28},{2013,05,21},{2013,05,21},{2013,05,21},{2013,05,21},
     {2013,05,21},{2013,05,21},{2013,05,21},{2013,05,21}]
 
-    assert Finance.xirr(d,v) == {:ok, -1.018508}
+    assert Finance.xirr(d,v) == {:ok, 0.08006}
   end
 
   test "xirr/2 wrong size" do

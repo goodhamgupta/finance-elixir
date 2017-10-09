@@ -31,6 +31,7 @@ defmodule Finance.Mixfile do
 
   defp deps do
     [
+      {:timex, "~> 3.1"},
       {:mariaex, "~> 0.8.2"},
       {:earmark, "~> 0.2", only: :dev},
       {:ex_doc, "~> 0.12", only: :dev},

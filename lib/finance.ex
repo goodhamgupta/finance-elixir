@@ -68,6 +68,10 @@ defmodule Finance do
     {:error, "Date and Value collections must have the same size"}
   end
 
+  def xirr(dates, values) when length(dates) < 10 do
+    LegacyFinance.xirr(dates, values)
+  end # def xirr
+
   def xirr(dates, values) do
     dates = Enum.map dates, &(Date.from_erl!(&1))
     min_date = dates |> List.first
