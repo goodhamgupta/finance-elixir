@@ -12,10 +12,10 @@ defmodule FinanceTest do
     assert Finance.xirr(d,v) == {:error, "Values should have at least one positive or negative value."}
   end
 
-  test "xirr/2 very good investment" do
+  test "xirr/2 impossible returns on investments" do
     d = [{2015, 11, 1}, {2015,10,1}, {2015,6,1}]
     v = [-800_000, -2_200_000, 1_000_000]
-    assert Finance.xirr(d,v) == {:ok, 21.118359}
+    assert Finance.xirr(d,v) == {:error, "Xirr value is too large"}
   end
 
 
@@ -36,7 +36,7 @@ defmodule FinanceTest do
       {2013,05,21},
       {2013,05,21}]
 
-    assert Finance.xirr(d,v) == {:ok, 0.610359}
+    assert Finance.xirr(d,v) == {:error, "Xirr value is too large"}
   end
 
 
@@ -93,4 +93,9 @@ defmodule FinanceTest do
     assert Finance.xirr(d,v) == {:ok, 0.123631}
   end
 
+  test "xirr/2 fail when the rate is too large" do
+    d = [{2017,1,1}, {2017,1,5}]
+    v = [10000, -11000]
+    assert Finance.xirr(d,v) == {:error, "Unable to converge"}
+  end
 end

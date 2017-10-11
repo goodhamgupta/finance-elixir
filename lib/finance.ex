@@ -1,5 +1,3 @@
-require IEx;
-
 defmodule Finance do
 
   defmodule Fraction do
@@ -58,10 +56,10 @@ defmodule Finance do
   end
 
   @doc """
-    iex> d = [{2015, 11, 1}, {2015,10,1}, {2015,6,1}]
-    iex> v = [-800_000, -2_200_000, 1_000_000]
+    iex> d = [{1985, 1, 1}, {1990, 1, 1}, {1995, 1, 1}]
+    iex> v = [1000, -600, -200]
     iex> Finance.xirr(d,v)
-    { :ok, 21.118359 }
+    {:ok, -0.034592}
   """
   @spec xirr([date], [number]) :: float
   def xirr(dates, values) when length(dates) != length(values) do
@@ -154,9 +152,16 @@ defmodule Finance do
     {calculated_xirr, calculated_dxirr}
   end
 
+  defp calculate(:xirr, _ , 0.0 , rate, _) when abs(rate) > 0.6 do
+    {:error, "Xirr value is too large"}
+  end
+
   defp calculate(:xirr, _           , 0.0 , rate, _), do: {:ok, Float.round(rate, 6)}
+
   defp calculate(:xirr, _           , _   , -1.0, _), do: {:error, "Could not converge"}
+
   defp calculate(:xirr, _           , _   , _, 300), do: {:error, "I give up"}
+
   defp calculate(:xirr, dates_values, _   , rate, tries) do
     {xirr, dxirr} = reduce_date_values(dates_values, rate)
     if dxirr < 0.0 do

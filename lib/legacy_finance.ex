@@ -1,4 +1,5 @@
 defmodule LegacyFinance do
+
   use Timex
   @moduledoc """
   Library to calculate IRR through the Bisection method.
@@ -99,15 +100,22 @@ defmodule LegacyFinance do
         acc * first_value_sign(dates_values)
   end
 
+  defp calculate(:xirr, _date_values , 0.0 , {rate, _, _}, _) when abs(rate) > 0.6 do
+    {:error, "Xirr value is too large"}
+  end
+
   defp calculate(:xirr, _date_values , 0.0 , {rate, _bottom, _upper}, _tries) do
     {:ok, Float.round(rate, 6)}
   end
+
   defp calculate(:xirr, _date_values , _acc, {-1.0, _bottom, _upper}, _tries) do
     {:error, "Could not converge"}
   end
-  # defp calculate(:xirr, _date_values, _acc, {_   , _     , _ }    , 300) do
-  #   {:error, "I give up"}
-  # end
+
+  defp calculate(:xirr, _date_values, _acc, {_   , _     , _ }    , 300) do
+    {:error, "Unable to converge"}
+  end
+
   defp calculate(:xirr, dates_values, _acc , {rate, bottom, upper} , tries) do
     acc = reduce_date_values(dates_values, rate)
     resp = cond do
