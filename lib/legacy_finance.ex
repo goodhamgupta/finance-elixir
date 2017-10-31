@@ -100,10 +100,6 @@ defmodule LegacyFinance do
         acc * first_value_sign(dates_values)
   end
 
-  defp calculate(:xirr, _date_values , 0.0 , {rate, _, _}, _) when abs(rate) > 0.6 do
-    {:error, "Xirr value is too large"}
-  end
-
   defp calculate(:xirr, _date_values , 0.0 , {rate, _bottom, _upper}, _tries) do
     {:ok, Float.round(rate, 6)}
   end

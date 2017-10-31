@@ -152,10 +152,6 @@ defmodule Finance do
     {calculated_xirr, calculated_dxirr}
   end
 
-  defp calculate(:xirr, _ , 0.0 , rate, _) when abs(rate) > 0.6 do
-    {:error, "Xirr value is too large"}
-  end
-
   defp calculate(:xirr, _           , 0.0 , rate, _), do: {:ok, Float.round(rate, 6)}
 
   defp calculate(:xirr, _           , _   , -1.0, _), do: {:error, "Could not converge"}
